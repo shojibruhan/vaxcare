@@ -15,3 +15,23 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.email
+    
+
+class Doctor(models.Model):
+    user= models.OneToOneField(User, on_delete=models.CASCADE, related_name='doctor')
+    specialization= models.CharField(max_length=300)
+    profile_picture= models.ImageField(upload_to='profile/doctor/images', blank=True, null=True)
+
+
+    def __str__(self):
+        return f"Doctor: {self.user.get_full_name()}"
+
+class Patient(models.Model):
+    user= models.OneToOneField(User, on_delete=models.CASCADE, related_name='patient')
+    nid= models.CharField(unique=True, max_length=15)
+    date_of_birth= models.DateField()
+    medical_history= models.TextField(blank=True, null=True)
+    profile_picture= models.ImageField(upload_to='profile/patient/images', blank=True, null=True)
+
+    def __str__(self):
+        return f"Patient: {self.user.get_full_name()}" 

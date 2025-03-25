@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     "campaigns",
     "booking",
     "review",
+    "django_filters",
     "debug_toolbar"
 ]
 
