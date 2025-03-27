@@ -9,7 +9,6 @@ class VaccineViewSet(ModelViewSet):
     serializer_class= VaccineSerializers
 
 
-
 class BookingViewSet(ModelViewSet):
     queryset= Booking.objects.all()
     serializer_class= BookingSerializers

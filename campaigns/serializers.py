@@ -11,4 +11,5 @@ class VaccineSerializers(serializers.ModelSerializer):
 class BookingSerializers(serializers.ModelSerializer):
     class Meta:
         model= Booking
-        fields= '__all__'
+        fields= '__all__' 
+

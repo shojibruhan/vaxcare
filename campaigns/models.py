@@ -24,8 +24,8 @@ class Vaccine(models.Model):
         return f"{self.vaccine_name} campaign "
 
 
-
 class Booking(models.Model):
+    id= models.UUIDField(primary_key=True, default=uuid4, editable=False)
     STATUS_CHOICES = [
         ('PENDING', 'Pending'),
         ('COMPLETED', 'Completed'),
@@ -49,3 +49,4 @@ class Booking(models.Model):
 
     def __str__(self):
         return f"{self.patient}'s vaccine: \"{self.vaccine}\" Dose: {self.dose_number}"
+    
