@@ -24,7 +24,7 @@ class Doctor(models.Model):
 
 
     def __str__(self):
-        return f"Doctor: {self.user.get_full_name()}"
+        return self.user.get_full_name()
 
 class Patient(models.Model):
     user= models.OneToOneField(User, on_delete=models.CASCADE, related_name='patient')
@@ -34,4 +34,4 @@ class Patient(models.Model):
     profile_picture= models.ImageField(upload_to='profile/patient/images', blank=True, null=True)
 
     def __str__(self):
-        return f"Patient: {self.user.get_full_name()}" 
+        return self.user.get_full_name()
