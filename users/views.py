@@ -2,9 +2,11 @@ from django.shortcuts import render
 from .models import Doctor, Patient
 from .serializers import DoctorSerializer, PatientSerializer
 from .filters import DoctorFilterset, PatientFilterset
+from .pagination import DefaultPagination
+from api.permissions import IsAdminOrReadOnly
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import SearchFilter
-from .pagination import DefaultPagination
+from rest_framework.permissions import IsAdminUser, DjangoModelPermissions
 from django_filters.rest_framework import DjangoFilterBackend
 # Create your views here.
 
@@ -16,6 +18,7 @@ class DoctorViewSet(ModelViewSet):
     filterset_class= DoctorFilterset
     search_fields= ['user__first_name', 'user__last_name', 'specialization', 'user__email']
     pagination_class= DefaultPagination
+    permission_classes= [DjangoModelPermissions]
 
 
 class PatientViewSet(ModelViewSet):
@@ -25,3 +28,4 @@ class PatientViewSet(ModelViewSet):
     filter_backends= [DjangoFilterBackend, SearchFilter]
     filterset_class= PatientFilterset
     search_fields= ['user__first_name', 'user__last_name', 'user__email']
+    permission_classes= [IsAdminUser]
