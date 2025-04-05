@@ -24,8 +24,9 @@ class VaccineViewSet(ModelViewSet):
         if self.request.user.is_staff:
             return queryset.all()
         # if hasattr(self.request.user, 'doctor'):
-        if self.request.user.doctor:
+        if self.request.user.is_authenticated and hasattr(self.request.user, 'doctor'):
             return queryset.filter(doctor= self.request.user.doctor)
+       
         return queryset.none()
   
 
@@ -58,20 +59,30 @@ class BookingViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, Des
    
 
     def get_serializer_context(self):
-        return {'patient_id': self.request.user.patient.id, 'user_id': self.request.user.id}
+        if not self.request.user.is_authenticated:
+            return {}
+        # return {'patient_id': self.request.user.patient.id, 'user_id': self.request.user.id}
+        return {'patient_id': self.request.user.patient.id}
 
 
 class BookListViewSet(ModelViewSet):
+    """
+    # List of Booked/appointed vaccine by patiet
+        - Admin user can view all the list
+        - Authenticate user(patient can view only if booked a vaccine campaign)
+    """
     serializer_class= BookListSerializers
     filter_backends= [SearchFilter]
     search_fields= ['status']
     http_method_names= ['get']
+    permission_classes= [IsAuthenticated]
 
     def get_queryset(self):
         queryset = Booking.objects.select_related('patient__user', 'vaccine__doctor')
         if self.request.user.is_staff:
             return queryset.all()
-        return queryset.filter(patient__user= self.request.user)
+        if self.request.user.is_authenticated:
+            return queryset.filter(patient__user= self.request.user)
     
     # def get_serializer_class(self):
     #     if self.request.method == 'POST':

@@ -8,6 +8,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import SearchFilter
 from rest_framework.permissions import IsAdminUser, DjangoModelPermissions
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_yasg.utils import swagger_auto_schema
 # Create your views here.
 
 
@@ -20,6 +21,11 @@ class DoctorViewSet(ModelViewSet):
     pagination_class= DefaultPagination
     permission_classes= [DjangoModelPermissions]
 
+    @swagger_auto_schema(
+            operation_summary="List of all Doctors"
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
 class PatientViewSet(ModelViewSet):
     queryset= Patient.objects.select_related('user').all()

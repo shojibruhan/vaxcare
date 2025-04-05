@@ -4,13 +4,16 @@ from .serializers import DoctorReviewSerializers, CampaignReviewSerializers
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import DjangoModelPermissions
 from .permissions import IsReviewAuthorOrReadOnly
+from drf_yasg.utils import swagger_auto_schema
 # Create your views here.
 
 
 class DoctorReviewViewSet(ModelViewSet):
     serializer_class= DoctorReviewSerializers
     permission_classes= [IsReviewAuthorOrReadOnly]
-
+    @swagger_auto_schema(
+            operation_summary="Review of doctors."
+    )
     def get_queryset(self):
         return DoctorReview.objects.filter(doctor_id= self.kwargs.get('doctor_pk'))
     

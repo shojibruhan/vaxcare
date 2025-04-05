@@ -7,15 +7,16 @@ from djoser.serializers import UserCreateSerializer as DjoserUserCreateSerialize
 
 
 
-class UserSerializer(serializers.ModelSerializer):
+class BaseUserSerializer(serializers.ModelSerializer):
     class Meta:
         model= User
         fields= ['id', 'first_name', 'last_name', 'phone_number', 'email', 'address']
 
 
 
+
 class DoctorSerializer(serializers.ModelSerializer):
-    user= UserSerializer()
+    user= BaseUserSerializer()
     class Meta:
         model= Doctor
         fields= ['id', 'user', 'specialization', 'profile_picture']
@@ -31,7 +32,7 @@ class DoctorSerializer(serializers.ModelSerializer):
 
 
 class PatientSerializer(serializers.ModelSerializer):
-    user= UserSerializer()
+    user= BaseUserSerializer()
     class Meta:
         model= Patient
         fields= ['id', 'user', 'nid', 'date_of_birth', 'medical_history', 'profile_picture']
@@ -47,4 +48,6 @@ class UserCreateSerializer(DjoserUserCreateSerializer):
 
 class UserSerializer(DjoserUserSerializer):
     class Meta(DjoserUserSerializer.Meta):
+        ref_name = 'CustomUser'
         fields= ['email', 'password', 'first_name', 'last_name', 'address', 'phone_number']
+        
