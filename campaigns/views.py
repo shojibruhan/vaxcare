@@ -79,6 +79,8 @@ class BookListViewSet(ModelViewSet):
 
     def get_queryset(self):
         queryset = Booking.objects.select_related('patient__user', 'vaccine__doctor')
+        if getattr(self, 'swagger_fake_view', False):
+            return Booking.objects.none()
         if self.request.user.is_staff:
             return queryset.all()
         if self.request.user.is_authenticated:
