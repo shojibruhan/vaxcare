@@ -26,10 +26,15 @@ class Vaccine(models.Model):
 
 class Booking(models.Model):
     id= models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    PENDING= 'Pending'
+    COMPLETED= 'Completed'
+    CANCELLED= 'Cancelled'
+
+
     STATUS_CHOICES = [
-        ('PENDING', 'Pending'),
-        ('COMPLETED', 'Completed'),
-        ('CANCELLED', 'Cancelled'),
+        (PENDING, 'Pending'),
+        (COMPLETED, 'Completed'),
+        (CANCELLED, 'Cancelled'),
     ]
     patient= models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='my_vaccine')
     vaccine= models.ForeignKey(Vaccine, on_delete=models.CASCADE, related_name= 'bookings')

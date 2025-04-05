@@ -1,7 +1,7 @@
 from django.urls import path, include
 from users.views import DoctorViewSet, PatientViewSet
 # from users import views
-from campaigns.views import VaccineViewSet, BookingViewSet
+from campaigns.views import VaccineViewSet, BookingViewSet, BookListViewSet
 
 from rest_framework_nested import routers
 from review.views import DoctorReviewViewSet, CampaignReviewViewSet
@@ -11,6 +11,7 @@ router.register('doctors', DoctorViewSet, basename='doctor')
 router.register('patients', PatientViewSet, basename='patient')
 router.register('vaccines', VaccineViewSet, basename='vaccines')
 router.register('bookings', BookingViewSet, basename='booking')
+router.register('booked', BookListViewSet, basename='booked')
 # router.register('review', CampaignReviewViewSet, basename='review')
 doctor_router= routers.NestedDefaultRouter(router, 'doctors', lookup='doctor')
 doctor_router.register('reviews', DoctorReviewViewSet, basename='doctor-review')
