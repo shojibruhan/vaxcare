@@ -4,7 +4,7 @@ from .serializers import CreateVaccineSerializers ,VaccineSerializers, BookingSe
 from .filters import VaccineFilterset, BookingFilterset
 from review.permissions import IsReviewAuthorOrReadOnly
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
-from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyModelMixin, UpdateModelMixin
+from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyModelMixin, UpdateModelMixin, ListModelMixin
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
 from rest_framework.permissions import DjangoModelPermissions, IsAdminUser, IsAuthenticated
@@ -51,6 +51,11 @@ class BookingViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, Des
     # serializer_class= BookingSerializers
     permission_classes= [IsAuthenticated]
     
+    # def get_queryset(self):
+    #     if self.request.user.is_staff:
+    #         return Booking.objects.select_related('patient__user', 'vaccine__doctor')
+    #     return Booking.objects.all()
+
     def get_serializer_class(self):
         if self.request.user.is_staff:
             return BookListSerializers
@@ -75,7 +80,7 @@ class BookListViewSet(ModelViewSet):
     filter_backends= [SearchFilter]
     search_fields= ['status']
     http_method_names= ['get']
-    permission_classes= [IsAuthenticated]
+    # permission_classes= [IsAuthenticated]
 
     def get_queryset(self):
         queryset = Booking.objects.select_related('patient__user', 'vaccine__doctor')
@@ -86,10 +91,10 @@ class BookListViewSet(ModelViewSet):
         if self.request.user.is_authenticated:
             return queryset.filter(patient__user= self.request.user)
     
-    # def get_serializer_class(self):
-    #     if self.request.method == 'POST':
-    #         return BookingSerializers
-    #     return BookListSerializers
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return BookingSerializers
+        return BookListSerializers
         
     # def get_serializer_context(self):
     #     return {'patient_id': self.request.user.patient.id, 'user_id': self.request.user.id}
