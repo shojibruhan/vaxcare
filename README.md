@@ -82,9 +82,11 @@ VaxCare is a RESTful API built using Django REST Framework (DRF) for managing a 
 Create a `.env` file in the root directory and add the following:
 
 ```ini
-SECRET_KEY= ...
-DEBAG=TRUE
-DATABASE_URL=...
+SECRET_KEY=your_secret_key
+DEBUG=True
+DATABASE_URL=your_database_url
+ALLOWED_HOSTS=*
+EMIL_HOST=your_email_host
 
 ```
 
