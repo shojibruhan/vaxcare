@@ -17,6 +17,7 @@ class BaseUserSerializer(serializers.ModelSerializer):
 
 class DoctorSerializer(serializers.ModelSerializer):
     user= BaseUserSerializer()
+    profile_picture= serializers.ImageField()
     class Meta:
         model= Doctor
         fields= ['id', 'user', 'specialization', 'profile_picture']
@@ -33,6 +34,7 @@ class DoctorSerializer(serializers.ModelSerializer):
 
 class PatientSerializer(serializers.ModelSerializer):
     user= BaseUserSerializer()
+    profile_picture= serializers.ImageField()
     class Meta:
         model= Patient
         fields= ['id', 'user', 'nid', 'date_of_birth', 'medical_history', 'profile_picture']
