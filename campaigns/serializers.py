@@ -7,7 +7,7 @@ from users.models import Doctor
 class CreateVaccineSerializers(serializers.ModelSerializer):
     class Meta:
         model= Vaccine
-        fields= ['vaccine_name', 'first_dose', 'dose_interval']
+        fields= ['id', 'vaccine_name', 'first_dose', 'dose_interval']
     
     def create(self, validated_data):
         doctor_id= self.context['doctor_id']
@@ -24,7 +24,7 @@ class VaccineSerializers(serializers.ModelSerializer):
     class Meta:
         model= Vaccine
         # fields= '__all__' 
-        fields= ['id', 'doctor', 'doctor_name', 'vaccine_name', 'first_dose', 'dose_interval']
+        fields= ['id', 'doctor', 'doctor_name', 'vaccine_name', 'first_dose', 'dose_interval', 'last_dose']
     
     def get_doctor_name(self, vaccine):
         return vaccine.doctor.user.get_full_name()

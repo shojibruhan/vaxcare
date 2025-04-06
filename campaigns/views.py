@@ -40,10 +40,10 @@ class VaccineViewSet(ModelViewSet):
         if hasattr(self.request.user, 'doctor'):
             return {'doctor_id': self.request.user.doctor.id}
         
-    def get_permissions(self):
-        if self.request.method in ['POST', 'PATCH', 'DELETE']:
-            return [IsAdminUser()]
-        return [IsAuthenticated()]
+    # def get_permissions(self):
+    #     if self.request.method in ['POST', 'PATCH', 'DELETE']:
+    #         return [IsAdminUser()]
+    #     return [IsAuthenticated()]
 
 class BookingViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin, GenericViewSet):
     # http_method_names=['get', 'put', 'patch', 'post', 'delete']
