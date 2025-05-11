@@ -51,5 +51,6 @@ class UserCreateSerializer(DjoserUserCreateSerializer):
 class UserSerializer(DjoserUserSerializer):
     class Meta(DjoserUserSerializer.Meta):
         ref_name = 'CustomUser'
-        fields= ['email', 'password', 'first_name', 'last_name', 'address', 'phone_number']
-        
+        # fields= ['email', 'password', 'first_name', 'last_name', 'address', 'phone_number']
+        fields= ['email', 'first_name', 'last_name', 'address', 'phone_number', 'is_staff']
+        read_only_fields= ['is_staff']

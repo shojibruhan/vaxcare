@@ -27,7 +27,8 @@ class VaccineViewSet(ModelViewSet):
         if self.request.user.is_authenticated and hasattr(self.request.user, 'doctor'):
             return queryset.filter(doctor= self.request.user.doctor)
        
-        return queryset.none()
+        # return queryset.none()
+        return queryset
   
 
 

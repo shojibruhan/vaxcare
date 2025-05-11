@@ -19,7 +19,7 @@ class DoctorViewSet(ModelViewSet):
     filterset_class= DoctorFilterset
     search_fields= ['user__first_name', 'user__last_name', 'specialization', 'user__email']
     pagination_class= DefaultPagination
-    permission_classes= [DjangoModelPermissions]
+    # permission_classes= [DjangoModelPermissions]
 
     @swagger_auto_schema(
             operation_summary="List of all Doctors"
