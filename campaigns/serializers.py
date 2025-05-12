@@ -48,13 +48,24 @@ class BookingSerializers(serializers.ModelSerializer):
     def get_vaccine_name(self, vaccine_name):
         return vaccine_name.vaccine.vaccine_name
     
+    # def create(self, validated_data):
+        
+    #     patient_id= self.context.get('patient_id')
+    #     # user_id= self.context.get('user_id')
+        
+    #     if self.validated_data:
+    #         return Booking.objects.create(patient_id= patient_id, **validated_data)
+
     def create(self, validated_data):
-        
-        patient_id= self.context.get('patient_id')
-        # user_id= self.context.get('user_id')
-        
-        if self.validated_data:
-            return Booking.objects.create(patient_id= patient_id, **validated_data)
+        print("validate Data: \n\n", validated_data)
+        try:
+            patient_id = self.context.get('patient_id')
+            
+            return Booking.objects.create(patient_id=patient_id, **validated_data)
+        except Exception as e:
+            print("Booking Create Error:", e)
+            raise e
+
       
     # vaccine= serializers.CharField(source= 'vaccine.vaccine_name')
     # patient= serializers.CharField(source= 'patient.user.get_full_name')
@@ -69,3 +80,13 @@ class BookListSerializers(serializers.ModelSerializer):
     
     def get_patient_name(self, patient_name):
         return patient_name.patient.user.get_full_name()
+    
+    def create(self, validated_data):
+        print("validate Data: \n\n", validated_data)
+        try:
+            patient_id = self.context.get('patient_id')
+            
+            return Booking.objects.create(patient_id=patient_id, **validated_data)
+        except Exception as e:
+            print("Booking Create Error:", e)
+            raise e

@@ -47,6 +47,7 @@ class VaccineViewSet(ModelViewSet):
     #     return [IsAuthenticated()]
 
 class BookingViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin, GenericViewSet):
+# class BookingViewSet(ModelViewSet):
     # http_method_names=['get', 'put', 'patch', 'post', 'delete']
     queryset= Booking.objects.all()
     # serializer_class= BookingSerializers
