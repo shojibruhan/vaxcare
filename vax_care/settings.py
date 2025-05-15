@@ -120,7 +120,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
-    "https://vax-care-client.vercel.app",
+    "https://vax-care-client-fhlkwa0a9-shojib-hossain-ruhans-projects.vercel.app/",
 ]
 
 INTERNAL_IPS = [
