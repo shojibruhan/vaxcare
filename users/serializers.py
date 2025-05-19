@@ -20,7 +20,7 @@ class DoctorSerializer(serializers.ModelSerializer):
     profile_picture= serializers.ImageField()
     class Meta:
         model= Doctor
-        fields= ['id', 'user', 'specialization', 'profile_picture']
+        fields= ['id',  'specialization']
 
     # def create(self, validated_data):
     #     user_data= validated_data.pop('user')
