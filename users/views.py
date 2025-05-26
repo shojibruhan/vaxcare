@@ -34,4 +34,4 @@ class PatientViewSet(ModelViewSet):
     filter_backends= [DjangoFilterBackend, SearchFilter]
     filterset_class= PatientFilterset
     search_fields= ['user__first_name', 'user__last_name', 'user__email']
-    permission_classes= [IsAdminUser]
+    # permission_classes= [IsAdminUser]

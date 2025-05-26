@@ -1,7 +1,7 @@
 from django.urls import path, include
 from users.views import DoctorViewSet, PatientViewSet
 # from users import views
-from campaigns.views import VaccineViewSet, BookingViewSet, BookListViewSet, initiate_payment, payment_success, payment_cancel, payment_fail
+from campaigns.views import VaccineViewSet, BookingViewSet, BookListViewSet, initiate_payment, payment_success, payment_cancel, payment_fail, HasVaccinated
 
 from rest_framework_nested import routers
 from review.views import DoctorReviewViewSet, CampaignReviewViewSet
@@ -31,4 +31,5 @@ urlpatterns = [
     path("payment/success/", payment_success, name="payment-success"),
     path("payment/fail/", payment_fail, name="payment-fail"),
     path("payment/cancel/", payment_cancel, name="payment-cancel"),
+    path("booked/has-vaccinated/<uuid:booking_id>/", HasVaccinated.as_view())
 ]

@@ -10,18 +10,19 @@ from djoser.serializers import UserCreateSerializer as DjoserUserCreateSerialize
 class BaseUserSerializer(serializers.ModelSerializer):
     class Meta:
         model= User
-        fields= ['id', 'first_name', 'last_name', 'phone_number', 'email', 'address']
+        fields= ['id', 'first_name', 'last_name', 'phone_number', 'email', 'password', 'address']
 
 
 
 
 class DoctorSerializer(serializers.ModelSerializer):
     user= BaseUserSerializer()
-    profile_picture= serializers.ImageField()
+    # profile_picture= serializers.ImageField()
     class Meta:
         model= Doctor
-        # fields= ['id', 'user', 'specialization', 'profile_picture']
-        fields= ['id',  'specialization']
+        fields= ['id', 'user', 'specialization']
+        read_only_fields= ['user', ]
+        # fields= ['id',  'specialization']
 
     # def create(self, validated_data):
     #     user_data= validated_data.pop('user')
@@ -35,10 +36,10 @@ class DoctorSerializer(serializers.ModelSerializer):
 
 class PatientSerializer(serializers.ModelSerializer):
     user= BaseUserSerializer()
-    profile_picture= serializers.ImageField()
+    # profile_picture= serializers.ImageField()
     class Meta:
         model= Patient
-        fields= ['id', 'user', 'nid', 'date_of_birth', 'medical_history', 'profile_picture']
+        fields= ['id', 'user', 'nid', 'date_of_birth', 'medical_history']
 
     def create(self, validated_data):
         return create_role(validated_data, Patient)

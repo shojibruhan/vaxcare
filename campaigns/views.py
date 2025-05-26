@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.conf import settings as main_settings
 from .models import Vaccine, Booking
+from users.models import Patient
 from .serializers import CreateVaccineSerializers ,VaccineSerializers, BookingSerializers, BookListSerializers
 from .filters import VaccineFilterset, BookingFilterset
 from rest_framework import status
@@ -14,6 +15,7 @@ from rest_framework.permissions import DjangoModelPermissions, IsAdminUser, IsAu
 from rest_framework.decorators import api_view
 from sslcommerz_lib import SSLCOMMERZ 
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 
 
@@ -111,9 +113,29 @@ class BookListViewSet(ModelViewSet):
     #     if self.request.method in ['PATCH', 'PUT', 'DELETE']:
     #         return [IsAdminUser()]
     #     return [IsAuthenticated()]
+
+class HasVaccinated(APIView):
+    permission_classes= [IsAuthenticated]
+
+    def get(self, request, booking_id):
+        user= request.user
+        print("user: ", user)
+        print("ID (booking): ", booking_id)
+
+        try:
+            patient = user.patient  # Only works if this user *is* a patient
+            print("patient: ", patient)
+        except Patient.DoesNotExist:
+            return Response({"error": "User is not a patient."}, status=403)
+        # data= Booking.objects.get(patient= user, id=booking_id)
+        # print("data: ", data)
         
+        has_vaccinated= Booking.objects.filter(patient= patient, id= booking_id).exists()
+        return Response({"has_vaccinated": has_vaccinated})
     
-    
+
+
+
 @api_view(['POST'])
 def initiate_payment(request):
     user= request.user
