@@ -117,10 +117,12 @@ class BookListViewSet(ModelViewSet):
 class HasVaccinated(APIView):
     permission_classes= [IsAuthenticated]
 
-    def get(self, request, booking_id):
+    def get(self, request, vaccine_id):
         user= request.user
         print("user: ", user)
-        print("ID (booking): ", booking_id)
+        # print("ID (booking): ", booking_id)
+        print("Vaccine: ", vaccine_id)
+        
 
         try:
             patient = user.patient  # Only works if this user *is* a patient
@@ -129,8 +131,15 @@ class HasVaccinated(APIView):
             return Response({"error": "User is not a patient."}, status=403)
         # data= Booking.objects.get(patient= user, id=booking_id)
         # print("data: ", data)
+        # try:
+        #     vaccine_name = Booking.objects.get(vaccine=vaccine_id)
+        #     vaccine_id = vaccine_name.vaccine.id
+        #     print("Vaccine: ", vaccine_id)
+        # except Booking.DoesNotExist:
+        #     return Response({"error": "Booking not found."}, status=404)
         
-        has_vaccinated= Booking.objects.filter(patient= patient, id= booking_id).exists()
+        # has_vaccinated= Booking.objects.filter(patient= patient, id= vaccine_id).exists()
+        has_vaccinated = Booking.objects.filter(patient=patient, vaccine__id=vaccine_id).exists()
         return Response({"has_vaccinated": has_vaccinated})
     
 

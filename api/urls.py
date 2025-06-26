@@ -31,5 +31,5 @@ urlpatterns = [
     path("payment/success/", payment_success, name="payment-success"),
     path("payment/fail/", payment_fail, name="payment-fail"),
     path("payment/cancel/", payment_cancel, name="payment-cancel"),
-    path("booked/has-vaccinated/<uuid:booking_id>/", HasVaccinated.as_view())
+    path("booked/has-vaccinated/<uuid:vaccine_id>/", HasVaccinated.as_view())
 ]

@@ -8,20 +8,34 @@ from djoser.serializers import UserCreateSerializer as DjoserUserCreateSerialize
 
 
 class BaseUserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
     class Meta:
         model= User
         fields= ['id', 'first_name', 'last_name', 'phone_number', 'email', 'password', 'address']
 
 
+class UserCreateSerializer(DjoserUserCreateSerializer):
+    password = serializers.CharField(write_only=True)
+    class Meta(DjoserUserCreateSerializer.Meta):
+        fields= ['email', 'password', 'first_name', 'last_name', 'address', 'phone_number']
+
+
+class UserSerializer(DjoserUserSerializer):
+    class Meta(DjoserUserSerializer.Meta):
+        ref_name = 'CustomUser'
+        # fields= ['email', 'password', 'first_name', 'last_name', 'address', 'phone_number']
+        fields= ['email', 'first_name', 'last_name', 'address', 'phone_number', 'is_staff']
+        read_only_fields= ['is_staff']
 
 
 class DoctorSerializer(serializers.ModelSerializer):
-    user= BaseUserSerializer()
+    # user= BaseUserSerializer()
+    user= UserCreateSerializer()
     # profile_picture= serializers.ImageField()
     class Meta:
         model= Doctor
         fields= ['id', 'user', 'specialization']
-        read_only_fields= ['user', ]
+        # read_only_fields= ['user', ]
         # fields= ['id',  'specialization']
 
     # def create(self, validated_data):
@@ -45,14 +59,4 @@ class PatientSerializer(serializers.ModelSerializer):
         return create_role(validated_data, Patient)
     
 
-class UserCreateSerializer(DjoserUserCreateSerializer):
-    class Meta(DjoserUserCreateSerializer.Meta):
-        fields= ['email', 'password', 'first_name', 'last_name', 'address', 'phone_number']
 
-
-class UserSerializer(DjoserUserSerializer):
-    class Meta(DjoserUserSerializer.Meta):
-        ref_name = 'CustomUser'
-        # fields= ['email', 'password', 'first_name', 'last_name', 'address', 'phone_number']
-        fields= ['email', 'first_name', 'last_name', 'address', 'phone_number', 'is_staff']
-        read_only_fields= ['is_staff']
